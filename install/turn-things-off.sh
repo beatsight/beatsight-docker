@@ -1,6 +1,5 @@
 echo "${_group}Turning things off ..."
 
-MINIMIZE_DOWNTIME=1
 if [[ -n "$MINIMIZE_DOWNTIME" ]]; then
   # Stop everything but relay and nginx
   $dc rm -fsv $($dc config --services | grep -v -E '^(nginx|relay)$')

@@ -1,0 +1,104 @@
+version: "3"
+
+x-restart-policy: &restart_policy
+  restart: unless-stopped
+x-depends_on-healthy: &depends_on-healthy
+  condition: service_healthy
+x-healthcheck-defaults: &healthcheck_defaults
+  # Avoid setting the interval too small, as docker uses much more CPU than one would expect.
+  # Related issues:
+  # https://github.com/moby/moby/issues/39102
+  # https://github.com/moby/moby/issues/39388
+  interval: "$HEALTHCHECK_INTERVAL"
+  timeout: "$HEALTHCHECK_TIMEOUT"
+  retries: $HEALTHCHECK_RETRIES
+  start_period: 10s
+x-beatsight-defaults: &beatsight_defaults
+  <<: *restart_policy
+  image: ${BEATSIGHT_IMAGE}
+  # Set the platform to build for linux/arm64 when needed on Apple silicon Macs.
+  platform: ${DOCKER_PLATFORM:-}
+  depends_on:
+    redis:
+      <<: *depends_on-healthy
+  # entrypoint: "/home/ubuntu/entrypoint.py"
+  # command: ["beatsight"]
+  environment:
+    PYTHONPATH: "/home/ubuntu/beatsight/vendor/repostat:$PYTHONPATH"
+    # Leaving the value empty to just pass whatever is set
+    # on the host system (or in the .env file)
+    COMPOSE_PROFILES:
+    OPENAI_API_KEY:
+  volumes:
+    - "beatsight-data:/data"
+
+services:
+
+  web:
+    <<: *beatsight_defaults
+    container_name: beatsight-web
+    ulimits:
+      nofile:
+        soft: 4096
+        hard: 4096
+    networks:
+      - beatsight-net
+    ports:
+      - "$BEATSIGHT_BIND:80/tcp"
+
+  # celery:
+  #   <<: *beatsight_defaults
+  #   container_name: beatsight-celery
+  #   # command: bash -c 'python3 manage.py watch_celery'
+  #   entrypoint: /home/cyuser/build/start-celery.sh
+  #   ports: []
+
+  # beat:
+  #   <<: *beatsight_defaults
+  #   container_name: beatsight-beat
+  #   entrypoint: /home/cyuser/build/start-beat.sh
+  #   ports: []
+
+  # flower:
+  #   image: mher/flower
+  #   container_name: beatsight-flower
+  #   command: --url_prefix=flower --inspect_timeout=20000
+  #   environment:
+  #     - CELERY_BROKER_URL=redis://redis:6379/0
+  #     - FLOWER_PORT=5555
+  #   ports:
+  #     - 5555:5555
+  #   networks:
+  #     - beatsight-net
+  #   depends_on:
+  #     - celery
+  #     - redis
+  #     - beat
+    
+  redis:
+    <<: *restart_policy
+    container_name: beatsight-redis
+    image: "redis:6.2.14-alpine"
+    healthcheck:
+      <<: *healthcheck_defaults
+      test: redis-cli ping
+    volumes:
+      - "beatsight-redis:/data"
+    ulimits:
+      nofile:
+        soft: 10032
+        hard: 10032
+    networks:
+      - beatsight-net
+    
+
+volumes:
+  # These store application data that should persist across restarts.
+  beatsight-redis:
+    external: true
+  beatsight-data:
+    external: true
+
+networks:
+  beatsight-net:
+    driver: bridge

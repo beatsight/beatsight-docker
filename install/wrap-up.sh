@@ -1,3 +1,4 @@
+
 if [[ "$MINIMIZE_DOWNTIME" ]]; then
   echo "${_group}Waiting for Beatsight to start ..."
 

@@ -9,6 +9,7 @@ fi
 
 source install/_lib.sh
 
+source install/parse-cli.sh
 source install/detect-platform.sh
 source install/dc-detect-version.sh
 # source install/error-handling.sh
