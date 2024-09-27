@@ -1,5 +1,3 @@
-version: "3"
-
 x-restart-policy: &restart_policy
   restart: unless-stopped
 x-depends_on-healthy: &depends_on-healthy
@@ -21,8 +19,7 @@ x-beatsight-defaults: &beatsight_defaults
   depends_on:
     redis:
       <<: *depends_on-healthy
-  # entrypoint: "/home/ubuntu/entrypoint.py"
-  # command: ["beatsight"]
+  command: ["beatsight"]
   environment:
     PYTHONPATH: "/home/ubuntu/beatsight/vendor/repostat:$PYTHONPATH"
     # Leaving the value empty to just pass whatever is set
@@ -31,6 +28,7 @@ x-beatsight-defaults: &beatsight_defaults
     OPENAI_API_KEY:
   volumes:
     - "beatsight-data:/data"
+    - ./license.json:/home/ubuntu/beatsight/core-serv/license.json
 
 services:
 
