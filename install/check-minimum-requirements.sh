@@ -44,6 +44,6 @@ if [[ "$RAM_AVAILABLE_IN_DOCKER" -lt "$MIN_RAM_HARD" ]]; then
   echo "FAIL: Required minimum RAM available to Docker is $MIN_RAM_HARD MB, found $RAM_AVAILABLE_IN_DOCKER MB"
   exit 1
 fi
-echo "Found RAM available in docker: $RAM_AVAILABLE_IN_DOCKER"
+echo "Found RAM available in docker: ${RAM_AVAILABLE_IN_DOCKER}MB"
 
 echo "${_endgroup}"

@@ -28,10 +28,10 @@ x-beatsight-defaults: &beatsight_defaults
     OPENAI_API_KEY:
   volumes:
     - "beatsight-data:/data"
-    - ./license.json:/home/ubuntu/beatsight/core-serv/license.json
+    - "./runtime:/home/ubuntu/runtime"
+    - "./license.json:/home/ubuntu/beatsight/core-serv/license.json"
 
 services:
-
   web:
     <<: *beatsight_defaults
     container_name: beatsight-web

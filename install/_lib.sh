@@ -41,6 +41,25 @@ else
   _endgroup=""
 fi
 
+# A couple of the config files are referenced from other subscripts, so they
+# get vars, while multiple subscripts call ensure_file_from_example.
+function ensure_file_from_example {
+  target="$1"
+  if [[ -f "$target" ]]; then
+    echo "$target already exists, skipped creation."
+  else
+    # sed from https://stackoverflow.com/a/25123013/90297
+    example="$(echo "$target" | sed 's/\.[^.]*$/.example&/')"
+    if [[ ! -f "$example" ]]; then
+      echo "Oops! Where did $example go? 🤨 We need it in order to create $target."
+      exit
+    fi
+    echo "Creating $target ..."
+    cp -n "$example" "$target"
+  fi
+}
+
+BEATSIGHT_SETTINGS_PY=runtime/beatsight_settings.py
 
 # Increase the default 10 second SIGTERM timeout
 # to ensure celery queues are properly drained
