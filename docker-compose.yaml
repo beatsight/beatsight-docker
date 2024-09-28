@@ -21,7 +21,7 @@ x-beatsight-defaults: &beatsight_defaults
       <<: *depends_on-healthy
   command: ["beatsight"]
   environment:
-    PYTHONPATH: "/home/ubuntu/beatsight/vendor/repostat:$PYTHONPATH"
+    PYTHONPATH: "/home/ubuntu/beatsight/vendor/repostat"
     # Leaving the value empty to just pass whatever is set
     # on the host system (or in the .env file)
     COMPOSE_PROFILES:
