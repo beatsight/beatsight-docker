@@ -5,6 +5,10 @@
 logs/**
 !logs/.gitkeep
 
+# Backup files
+backups/**
+!backups/.gitkeep
+
 # Installer logs
 beatsight_install_log*.txt
 
