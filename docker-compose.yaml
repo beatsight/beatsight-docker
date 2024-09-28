@@ -29,6 +29,7 @@ x-beatsight-defaults: &beatsight_defaults
   volumes:
     - "beatsight-data:/data"
     - "./runtime:/home/ubuntu/runtime"
+    - "./logs:/home/ubuntu/logs"
     - "./license.json:/home/ubuntu/beatsight/core-serv/license.json"
 
 services:

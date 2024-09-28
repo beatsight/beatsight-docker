@@ -1,8 +1,18 @@
 # Emacs backup file
 *~
 
+# App log files
+logs/**
+!logs/.gitkeep
+
 # Installer logs
 beatsight_install_log*.txt
+
+# https://docs.docker.com/compose/extends/
+docker-compose.override.yml
+
+# https://docs.docker.com/compose/environment-variables/#using-the---env-file--option
+.env.custom
 
 # Custom config
 runtime/beatsight.nginx.conf
