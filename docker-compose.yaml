@@ -45,35 +45,28 @@ services:
     ports:
       - "$BEATSIGHT_BIND:80/tcp"
 
-  # celery:
-  #   <<: *beatsight_defaults
-  #   container_name: beatsight-celery
-  #   # command: bash -c 'python3 manage.py watch_celery'
-  #   entrypoint: /home/cyuser/build/start-celery.sh
-  #   ports: []
+  celery:
+    <<: *beatsight_defaults
+    container_name: beatsight-celery
+    ulimits:
+      nofile:
+        soft: 4096
+        hard: 4096
+    entrypoint: /home/ubuntu/build/start-celery.sh
+    networks:
+      - beatsight-net
 
-  # beat:
-  #   <<: *beatsight_defaults
-  #   container_name: beatsight-beat
-  #   entrypoint: /home/cyuser/build/start-beat.sh
-  #   ports: []
+  beat:
+    <<: *beatsight_defaults
+    container_name: beatsight-beat
+    ulimits:
+      nofile:
+        soft: 4096
+        hard: 4096
+    entrypoint: /home/ubuntu/build/start-beat.sh
+    networks:
+      - beatsight-net
 
-  # flower:
-  #   image: mher/flower
-  #   container_name: beatsight-flower
-  #   command: --url_prefix=flower --inspect_timeout=20000
-  #   environment:
-  #     - CELERY_BROKER_URL=redis://redis:6379/0
-  #     - FLOWER_PORT=5555
-  #   ports:
-  #     - 5555:5555
-  #   networks:
-  #     - beatsight-net
-  #   depends_on:
-  #     - celery
-  #     - redis
-  #     - beat
-    
   redis:
     <<: *restart_policy
     container_name: beatsight-redis
