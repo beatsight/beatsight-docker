@@ -5,6 +5,10 @@
 logs/**
 !logs/.gitkeep
 
+# Data files
+data/**
+!data/.gitkeep
+
 # Backup files
 backups/**
 !backups/.gitkeep
@@ -25,3 +29,5 @@ runtime/gunicorn.conf.py
 
 # OSX minutia
 .DS_Store
+
+license.json
