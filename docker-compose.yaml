@@ -27,7 +27,7 @@ x-beatsight-defaults: &beatsight_defaults
     COMPOSE_PROFILES:
     OPENAI_API_KEY:
   volumes:
-    - "./data:/data"
+    - "beatsight-data:/data"
     - "./runtime:/home/ubuntu/runtime"
     - "./logs:/home/ubuntu/logs"
     - "./license.json:/home/ubuntu/beatsight/core-serv/license.json"
@@ -86,6 +86,8 @@ services:
 
 volumes:
   # These store application data that should persist across restarts.
+  beatsight-data:
+    external: true
   beatsight-redis:
     external: true
 
