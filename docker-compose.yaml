@@ -77,7 +77,7 @@ services:
   redis:
     <<: *restart_policy
     container_name: beatsight-redis
-    image: "redis:6.2.14-alpine"
+    image: "reg.beatsight.com/beatsight/redis:6.2.14-alpine"
     healthcheck:
       <<: *healthcheck_defaults
       test: redis-cli ping
@@ -89,7 +89,19 @@ services:
         hard: 10032
     networks:
       - beatsight-net
-    
+
+  rabbitmq:
+    container_name: beatsight-mq
+    image: "reg.beatsight.com/beatsight/rabbitmq:3-management-alpine"
+    healthcheck:
+      <<: *healthcheck_defaults
+      test: rabbitmq-diagnostics -q ping
+    volumes:
+        - beatsight-mq:/var/lib/rabbitmq
+        - beatsight-mq-log:/var/log/rabbitmq
+    networks:
+      - beatsight-net
+      
 
 volumes:
   # These store application data that should persist across restarts.
@@ -97,6 +109,11 @@ volumes:
     external: true
   beatsight-redis:
     external: true
+  beatsight-mq:
+    external: true
+  # These store ephemeral data that needn't persist across restarts.
+  # That said, volumes will be persisted across restarts until they are deleted.
+  beatsight-mq-log:
 
 networks:
   beatsight-net:
