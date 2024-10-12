@@ -2,6 +2,15 @@ import os
 
 DEBUG = False
 SECRET_KEY = '!!changeme!!'
+ALLOWED_HOSTS = [
+    '127.0.0.1',
+    'demo.beatsight.com',
+    # Add other allowd host as needed
+]
+CSRF_TRUSTED_ORIGINS = [
+    'https://demo.beatsight.com',
+    # Add other trusted origins as needed
+]
 
 BEATSIGHT_DATA_DIR = '/data'
 
@@ -14,18 +23,13 @@ DATABASES = {
 }
 
 
-# Celery settings
-CELERY_BROKER_URL = "redis://redis:6379"
-CELERY_RESULT_BACKEND = "redis://redis:6379"
-
-
 # Email settings
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.163.com'
+EMAIL_HOST = 'smtp.mail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True  # Use TLS
-EMAIL_HOST_USER = 'xxx@163.com'  # Your email address
-EMAIL_HOST_PASSWORD = 'yyy'  # 163 SMTP 授权码
+EMAIL_HOST_USER = 'xxx@mail.com'  # Your email address
+EMAIL_HOST_PASSWORD = 'yyy'  # Your email passwrod
 DEFAULT_FROM_EMAIL = 'zzz'  # Default from email address
 
 
