@@ -74,6 +74,25 @@ services:
     networks:
       - beatsight-net
 
+  postgres:
+    <<: *restart_policy
+    # Using the same postgres version as Sentry dev for consistency purposes
+    image: "reg.beatsight.com/beatsight/postgres:14.13"
+    healthcheck:
+      <<: *healthcheck_defaults
+      # Using default user "postgres" from sentry/sentry.conf.example.py or value of POSTGRES_USER if provided
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres}"]
+    command:
+      [
+        "postgres",
+        "-c",
+        "max_connections=${POSTGRES_MAX_CONNECTIONS:-100}",
+      ]
+    environment:
+      POSTGRES_HOST_AUTH_METHOD: "trust"
+    volumes:
+      - "beatsight-postgres:/var/lib/postgresql/data"
+      
   redis:
     <<: *restart_policy
     container_name: beatsight-redis
@@ -106,6 +125,8 @@ services:
 volumes:
   # These store application data that should persist across restarts.
   beatsight-data:
+    external: true
+  beatsight-postgres:
     external: true
   beatsight-redis:
     external: true

@@ -17,8 +17,12 @@ BEATSIGHT_DATA_DIR = '/data'
 # Database settings
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BEATSIGHT_DATA_DIR, 'db.sqlite3'),
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": "postgres",
+        "USER": "postgres",
+        "PASSWORD": "",
+        "HOST": "postgres",
+        "PORT": "",
     }
 }
 
