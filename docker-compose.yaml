@@ -76,6 +76,7 @@ services:
 
   postgres:
     <<: *restart_policy
+    container_name: beatsight-postgres
     # Using the same postgres version as Sentry dev for consistency purposes
     image: "reg.beatsight.com/beatsight/postgres:14.13"
     healthcheck:
@@ -92,6 +93,8 @@ services:
       POSTGRES_HOST_AUTH_METHOD: "trust"
     volumes:
       - "beatsight-postgres:/var/lib/postgresql/data"
+    networks:
+      - beatsight-net
       
   redis:
     <<: *restart_policy
