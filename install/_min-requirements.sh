@@ -6,4 +6,4 @@ MIN_COMPOSE_VERSION='2.13.0'
 # can be allotted to docker
 MIN_RAM_HARD=3000 # MB
 
-MIN_CPU_HARD=4
+MIN_CPU_HARD=2
