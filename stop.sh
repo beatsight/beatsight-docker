@@ -1,3 +1,7 @@
 #!/usr/bin/env bash
 
-docker compose stop
+if [[ -f "../.env" ]]; then
+    docker compose --env-file .env --env-file ../.env stop
+else
+    docker compose stop
+fi

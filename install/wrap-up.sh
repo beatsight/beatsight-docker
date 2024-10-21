@@ -20,8 +20,8 @@ else
   echo ""
   echo "You're all done! Run the following command to get Beatsight running:"
   echo ""
-  if [[ "${_ENV}" =~ ".env.custom" ]]; then
-    echo "  $dc_base --env-file ${_ENV} up -d"
+  if [[ $_ENV_CUSTOM == true ]]; then
+    echo "  $dc_base --env-file .env --env-file ../.env up -d"
   else
     echo "  $dc_base up -d"
   fi

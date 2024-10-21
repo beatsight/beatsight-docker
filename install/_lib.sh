@@ -9,12 +9,10 @@ log_file=beatsight_install_log-$(date +'%Y-%m-%d_%H-%M-%S').txt
 exec &> >(tee -a "$log_file")
 
 
-# Allow `.env` overrides using the `.env.custom` file.
-# We pass this to docker compose in a couple places.
-if [[ -f .env.custom ]]; then
-  _ENV=.env.custom
+if [[ -f ../.env ]]; then
+  _ENV_CUSTOM=true
 else
-  _ENV=.env
+  _ENV_CUSTOM=false
 fi
 
 
@@ -30,8 +28,16 @@ fi
 
 # Purpose
 # The overall purpose of this command sequence is to manage and preserve the environment variables within a shell session, allowing for the integration of additional variables from a specified file while ensuring that the original environment is restored afterward. This is useful in scenarios where you want to temporarily modify the environment without permanently affecting it.
-t=$(mktemp) && export -p >"$t" && set -a && . $_ENV && set +a && . "$t" && rm "$t" && unset t
+if [[ $_ENV_CUSTOM == true ]]; then
+    t=$(mktemp) && export -p >"$t" && set -a && . .env && . ../.env && set +a && . "$t" && rm "$t" && unset t
+else
+  # If _ENV_CUSTOM is false
+    t=$(mktemp) && export -p >"$t" && set -a && . .env && set +a && . "$t" && rm "$t" && unset t
+fi
 
+echo "${BEATSIGHT_BIND}"
+echo "${BEATSIGHT_IMAGE}"
+exit 0
 
 if [ "${GITHUB_ACTIONS:-}" = "true" ]; then
   _group="::group::"
