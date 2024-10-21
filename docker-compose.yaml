@@ -27,9 +27,9 @@ x-beatsight-defaults: &beatsight_defaults
     COMPOSE_PROFILES:
   volumes:
     - "beatsight-data:/data"
-    - "./runtime:/home/beatsight/runtime"
-    - "./logs:/home/beatsight/logs"
-    - "./license.json:/home/beatsight/app/core-serv/license.json"
+    - "../runtime:/home/beatsight/runtime"
+    - "../logs:/home/beatsight/logs"
+    - "../license.json:/home/beatsight/app/core-serv/license.json"
 
 services:
   web:

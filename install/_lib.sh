@@ -29,10 +29,10 @@ fi
 # Purpose
 # The overall purpose of this command sequence is to manage and preserve the environment variables within a shell session, allowing for the integration of additional variables from a specified file while ensuring that the original environment is restored afterward. This is useful in scenarios where you want to temporarily modify the environment without permanently affecting it.
 if [[ $_ENV_CUSTOM == true ]]; then
-    t=$(mktemp) && export -p >"$t" && set -a && . .env && . ../.env && set +a && . "$t" && rm "$t" && unset t
+  t=$(mktemp) && export -p >"$t" && set -a && . .env && . ../.env && set +a && . "$t" && rm "$t" && unset t
 else
   # If _ENV_CUSTOM is false
-    t=$(mktemp) && export -p >"$t" && set -a && . .env && set +a && . "$t" && rm "$t" && unset t
+  t=$(mktemp) && export -p >"$t" && set -a && . .env && set +a && . "$t" && rm "$t" && unset t
 fi
 
 if [ "${GITHUB_ACTIONS:-}" = "true" ]; then
@@ -51,7 +51,7 @@ function ensure_file_from_example {
     echo "$target already exists, skipped creation."
   else
     # sed from https://stackoverflow.com/a/25123013/90297
-    example="$(echo "$target" | sed 's/\.[^.]*$/.example&/')"
+    example="$(echo "$target" | sed 's|^\.\./||; s|\(.*\)\(\.[^.]*\)$|\1.example\2|')"
     if [[ ! -f "$example" ]]; then
       echo "Oops! Where did $example go? 🤨 We need it in order to create $target."
       exit
@@ -61,7 +61,8 @@ function ensure_file_from_example {
   fi
 }
 
-BEATSIGHT_SETTINGS_PY=runtime/beatsight_settings.py
+mkdir -p ../runtime ../logs
+BEATSIGHT_SETTINGS_PY=../runtime/beatsight_settings.py
 
 # Increase the default 10 second SIGTERM timeout
 # to ensure celery queues are properly drained
