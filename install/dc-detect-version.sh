@@ -8,6 +8,7 @@ if [[ "$(basename $0)" = "install.sh" ]]; then
   else
     # if _ENV_CUSTOM is false
     dc="$dc_base --ansi never --env-file .env"
+  fi
 else
   dc="$dc_base --ansi never"
 fi

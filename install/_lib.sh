@@ -35,10 +35,6 @@ else
     t=$(mktemp) && export -p >"$t" && set -a && . .env && set +a && . "$t" && rm "$t" && unset t
 fi
 
-echo "${BEATSIGHT_BIND}"
-echo "${BEATSIGHT_IMAGE}"
-exit 0
-
 if [ "${GITHUB_ACTIONS:-}" = "true" ]; then
   _group="::group::"
   _endgroup="::endgroup::"
