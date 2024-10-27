@@ -6,4 +6,4 @@ MIN_COMPOSE_VERSION='2.13.0'    # 2.17.0 for multiple --env-file
 # can be allotted to docker
 MIN_RAM_HARD=${MIN_RAM_HARD:-4000} # MB
 
-MIN_CPU_HARD=2
+MIN_CPU_HARD=${MIN_CPU_HARD:-2}
