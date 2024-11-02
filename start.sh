@@ -1,7 +1,10 @@
 #!/usr/bin/env bash
 
+dc_base="$(docker compose version &>/dev/null && echo 'docker compose' || echo 'docker-compose')"
+dc="$dc_base --ansi never"
+
 if [[ -f "../.env" ]]; then
-    docker compose --env-file .env --env-file ../.env up -d
+    $dc --env-file .env --env-file ../.env up -d
 else
-    docker compose up -d
+    $dc up -d
 fi

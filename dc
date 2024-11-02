@@ -1,10 +1,8 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
+# Determine the correct docker compose command
 dc_base="$(docker compose version &>/dev/null && echo 'docker compose' || echo 'docker-compose')"
 dc="$dc_base --ansi never"
 
-if [[ -f "../.env" ]]; then
-    $dc --env-file .env --env-file ../.env stop
-else
-    $dc stop
-fi
+# Pass all arguments to the docker command
+exec $dc "$@"

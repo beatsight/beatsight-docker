@@ -14,6 +14,6 @@ if [[ -z $os ]]; then
   exit 1
 fi
 
-$dcr web python3 manage.py migrate
+$dcr web gosu beatsight bash -c 'python3 manage.py migrate'
 
 echo "${_endgroup}"
