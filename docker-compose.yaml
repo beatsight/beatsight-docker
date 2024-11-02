@@ -19,6 +19,10 @@ x-beatsight-defaults: &beatsight_defaults
   depends_on:
     redis:
       <<: *depends_on-healthy
+    postgres:
+      <<: *depends_on-healthy
+    rabbitmq:
+      <<: *depends_on-healthy
   command: ["beatsight"]
   environment:
     PYTHONPATH: "/home/beatsight/app/vendor/repostat"
