@@ -82,7 +82,7 @@ services:
     <<: *restart_policy
     container_name: beatsight-postgres
     # Using the same postgres version as Sentry dev for consistency purposes
-    image: "reg.beatsight.com/beatsight/postgres:14.13"
+    image: "reg.beatsight.com/beatsight/postgres:14-bullseye"
     healthcheck:
       <<: *healthcheck_defaults
       # Using default user "postgres" from sentry/sentry.conf.example.py or value of POSTGRES_USER if provided
