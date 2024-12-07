@@ -1,33 +1,17 @@
-## Start & Stop
+# Beatsight Docker
 
-./start.sh
+[Beatsight](https://beatsight.com) is a tool for tracking project and developer activities, visualizing contributions with an activity calendar, and providing insights to optimize workflows and analyze development progress.
 
-./stop.sh
-
-## Create superuser
-
-docker compose exec web python3 manage.py createsuperuser
-
-## View public key
-
-docker compose exec web  cat /data/id_rsa.pub
-
-## DB dump and restore
-
-docker run --rm -e PYTHONPATH=/home/beatsight/app/vendor/repostat -v beatsight-data:/data -v "$PWD/backups:/backups" reg.beatsight.com/beatsight/beatsight:v1.2.4 python3 manage.py dumpdata -o /backups/mydata.json.gz
-
-docker run --rm -e PYTHONPATH=/home/beatsight/app/vendor/repostat -v beatsight-data:/data -v "$PWD/backups:/backups" reg.beatsight.com/beatsight/beatsight:v1.2.4 python3 manage.py loaddata /backups/mydata.json.gz -e contenttypes
+Please refer to the installation guide [here](https://docs.beatsight.com/).
 
 
-## Uninstall
+## License
 
-./dc down
+This project is licensed under the MIT License - see the [LICENSE](./LICENSE) file for details.
 
-docker run --rm -v beatsight-data:/data -v "$PWD/backups:/backups" reg.beatsight.com/beatsight/beatsight:v1.3.0 sudo tar -czvf /backups/beatsight-data_`date +%Y-%m-%d"_"%H_%M_%S`.tar.gz /data
 
-docker volume rm beatsight-data
-docker volume rm beatsight-postgres
-docker volume rm beatsight-redis
-docker volume rm beatsight-mq
+## Acknowledgments
 
-docker rmi $(docker images | grep 'reg.beatsight.com')
+This project uses the installation script structure from [Sentry](https://github.com/getsentry/self-hosted/), licensed under FSL-1.1-Apache-2.0. Thanks to Sentry for providing this useful setup.
+
+
