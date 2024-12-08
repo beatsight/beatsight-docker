@@ -82,7 +82,7 @@ services:
     <<: *restart_policy
     container_name: beatsight-postgres
     # Using the same postgres version as Sentry dev for consistency purposes
-    image: "reg.beatsight.com/beatsight/postgres:14-bullseye"
+    image: "postgres:14-bullseye"
     healthcheck:
       <<: *healthcheck_defaults
       # Using default user "postgres" from sentry/sentry.conf.example.py or value of POSTGRES_USER if provided
@@ -103,7 +103,7 @@ services:
   redis:
     <<: *restart_policy
     container_name: beatsight-redis
-    image: "reg.beatsight.com/beatsight/redis:6.2.14-alpine"
+    image: "redis:6.2.14-alpine"
     healthcheck:
       <<: *healthcheck_defaults
       test: redis-cli ping
@@ -118,7 +118,7 @@ services:
 
   rabbitmq:
     container_name: beatsight-mq
-    image: "reg.beatsight.com/beatsight/rabbitmq:3-management-alpine"
+    image: "rabbitmq:3-management-alpine"
     healthcheck:
       <<: *healthcheck_defaults
       test: rabbitmq-diagnostics -q ping

@@ -12,7 +12,7 @@ source install/_lib.sh
 source install/parse-cli.sh
 source install/detect-platform.sh
 source install/dc-detect-version.sh
-source install/detect-license.sh
+# source install/detect-license.sh
 # source install/error-handling.sh
 # # We set the trap at the top level so that we get better tracebacks.
 # trap_with_arg cleanup ERR INT TERM EXIT

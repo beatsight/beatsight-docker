@@ -32,14 +32,14 @@ if [[ "$(vergte ${COMPOSE_VERSION//v/} $MIN_COMPOSE_VERSION)" -eq 1 ]]; then
 fi
 echo "Found Docker Compose version $COMPOSE_VERSION"
 
-CPU_AVAILABLE_IN_DOCKER=$(docker run --rm reg.beatsight.com/beatsight/busybox nproc --all)
+CPU_AVAILABLE_IN_DOCKER=$(docker run --rm busybox nproc --all)
 if [[ "$CPU_AVAILABLE_IN_DOCKER" -lt "$MIN_CPU_HARD" ]]; then
   echo "FAIL: Required minimum CPU cores available to Docker is $MIN_CPU_HARD, found $CPU_AVAILABLE_IN_DOCKER"
   exit 1
 fi
 echo "Found CPU available in docker: $CPU_AVAILABLE_IN_DOCKER"
 
-RAM_AVAILABLE_IN_DOCKER=$(docker run --rm reg.beatsight.com/beatsight/busybox free -m 2>/dev/null | awk '/Mem/ {print $2}')
+RAM_AVAILABLE_IN_DOCKER=$(docker run --rm busybox free -m 2>/dev/null | awk '/Mem/ {print $2}')
 if [[ "$RAM_AVAILABLE_IN_DOCKER" -lt "$MIN_RAM_HARD" ]]; then
   echo "FAIL: Required minimum RAM available to Docker is $MIN_RAM_HARD MB, found $RAM_AVAILABLE_IN_DOCKER MB"
   exit 1
